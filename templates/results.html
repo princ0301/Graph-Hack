@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Travel Plan | AI Travel Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container results-container">
+        <header>
+            <h1 class="title">Your Travel Plan is Ready!</h1>
+            <p class="subtitle">{{ travel_theme }} to {{ destination }} for {{ num_days }} days</p>
+            <a href="/" class="back-btn">Plan Another Trip</a>
+        </header>
+
+        <main class="results-main">
+            <section class="flights-section">
+                <h2>Cheapest Flight Options</h2>
+                <div class="flight-cards">
+                    {% for flight in flights %}
+                    <div class="flight-card">
+                        <div class="flight-header">
+                            {% if flight.airline_logo %}
+                            <img src="{{ flight.airline_logo }}" alt="{{ flight.airline_name }} Logo" class="airline-logo">
+                            {% endif %}
+                            <h3>{{ flight.airline_name }}</h3>
+                        </div>
+                        <div class="flight-details">
+                            <p><strong>Departure:</strong> {{ flight.departure_time }}</p>
+                            <p><strong>Arrival:</strong> {{ flight.arrival_time }}</p>
+                            <p><strong>Total Duration:</strong> {{ flight.total_duration }}</p>
+                            <p class="flight-price"><strong>Price:</strong> {{ flight.price }}</p>
+                        </div>
+                        <a href="{{ flight.booking_link }}" target="_blank" class="book-btn">Book Now</a>
+                    </div>
+                    {% else %}
+                    <div class="no-data">No flight data available</div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="hotels-restaurants-section">
+                <h2>Hotels & Restaurants</h2>
+                <div class="content">
+                    {{ hotels_restaurants|safe }}
+                </div>
+            </section>
+
+            <section class="itinerary-section">
+                <h2>Your Personalized Itinerary</h2>
+                <div class="content">
+                    {{ itinerary|safe }}
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 AI Travel Planner. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

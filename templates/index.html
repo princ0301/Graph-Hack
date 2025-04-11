@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">AI Travel Planner</h1>
+            <p class="subtitle">A chatbot for booking hotels and planning trips</p>
+        </header>
+
+        <main>
+            <form action="/generate_plan" method="post">
+                <div class="form-section">
+                    <h2>Where are you headed?</h2>
+                    <div class="form-group">
+                        <label for="source">Departure city (IATA code):</label>
+                        <input type="text" id="source" name="source" value="BOM" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination city (IATA code):</label>
+                        <input type="text" id="destination" name="destination" value="DEL" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Plan Your Adventure</h2>
+                    <div class="form-group">
+                        <label for="num_days">Trip Duration (days):</label>
+                        <input type="range" id="num_days" name="num_days" min="1" max="14" value="5">
+                        <span id="num_days_value">5</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="travel_theme">Select your travel theme:</label>
+                        <select id="travel_theme" name="travel_theme">
+                            <option value="Couple Getaway">Couple Getaway</option>
+                            <option value="Family Vacation">Family Vacation</option>
+                            <option value="Adventure Trip">Adventure Trip</option>
+                            <option value="Solo Exploration">Solo Exploration</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="adventure-preview">
+                    <h3>Your <span id="theme-display">Couple Getaway</span> to <span id="destination-display">DEL</span> is about to begin!</h3>
+                    <p>Let's find the best flights, stays, and experiences for your unforgettable journey.</p>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="activity_preferences">What activities do you enjoy?</label>
+                        <textarea id="activity_preferences" name="activity_preferences" rows="3">Relaxing on the beach, exploring historical sites</textarea>
+                    </div>
+
+                    <div class="dates-section">
+                        <div class="form-group">
+                            <label for="departure_date">Departure Date:</label>
+                            <input type="date" id="departure_date" name="departure_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="return_date">Return Date:</label>
+                            <input type="date" id="return_date" name="return_date" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-sidebar">
+                    <h2>Travel Assistant</h2>
+                    <h3>Personalize Your Trip</h3>
+
+                    <div class="form-group">
+                        <label>Budget Preference:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="budget" value="Economy" checked>
+                                Economy
+                            </label>
+                            <label>
+                                <input type="radio" name="budget" value="Standard">
+                                Standard
+                            </label>
+                            <label>
+                                <input type="radio" name="budget" value="Luxury">
+                                Luxury
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Flight Class:</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="flight_class" value="Economy" checked>
+                                Economy
+                            </label>
+                            <label>
+                                <input type="radio" name="flight_class" value="Business">
+                                Business
+                            </label>
+                            <label>
+                                <input type="radio" name="flight_class" value="First Class">
+                                First Class
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hotel_rating">Preferred Hotel Rating:</label>
+                        <select id="hotel_rating" name="hotel_rating">
+                            <option value="Any">Any</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <h3>Packing Checklist</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="packing_items" value="Clothes" checked>
+                            Clothes
+                        </label>
+                        <label>
+                            <input type="checkbox" name="packing_items" value="Comfortable Footwear" checked>
+                            Comfortable Footwear
+                        </label>
+                        <label>
+                            <input type="checkbox" name="packing_items" value="Sunglasses & Sunscreen">
+                            Sunglasses & Sunscreen
+                        </label>
+                        <label>
+                            <input type="checkbox" name="packing_items" value="Travel Guidebook">
+                            Travel Guidebook
+                        </label>
+                        <label>
+                            <input type="checkbox" name="packing_items" value="Medications & First-Aid" checked>
+                            Medications & First-Aid
+                        </label>
+                    </div>
+
+                    <h3>Travel Essentials</h3>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="visa_required" value="true">
+                            Check Visa Requirements
+                        </label>
+                        <label>
+                            <input type="checkbox" name="travel_insurance" value="true">
+                            Get Travel Insurance
+                        </label>
+                        <label>
+                            <input type="checkbox" name="currency_converter" value="true">
+                            Currency Exchange rates
+                        </label>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="btn">Generate Travel Plan</button>
+                </div>
+            </form>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 AI Travel Planner. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize date inputs with today and tomorrow
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('departure_date').valueAsDate = today;
+            document.getElementById('return_date').valueAsDate = tomorrow;
+            
+            // Update slider value display
+            const slider = document.getElementById('num_days');
+            const sliderValue = document.getElementById('num_days_value');
+            
+            slider.addEventListener('input', function() {
+                sliderValue.textContent = this.value;
+            });
+            
+            // Update destination display
+            const destinationInput = document.getElementById('destination');
+            const destinationDisplay = document.getElementById('destination-display');
+            
+            destinationInput.addEventListener('input', function() {
+                destinationDisplay.textContent = this.value;
+            });
+            
+            // Update theme display
+            const themeSelect = document.getElementById('travel_theme');
+            const themeDisplay = document.getElementById('theme-display');
+            
+            themeSelect.addEventListener('change', function() {
+                themeDisplay.textContent = this.value;
+            });
+        });
+    </script>
+</body>
+</html>
