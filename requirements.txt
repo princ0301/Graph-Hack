@@ -1,0 +1,12 @@
+browserbase
+crewai
+crewai-tools
+html2text
+playwright
+python-dotenv
+streamlit
+serpapi
+agno
+google-search-results
+google-genai
+flask
